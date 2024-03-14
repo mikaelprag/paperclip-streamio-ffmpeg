@@ -38,6 +38,10 @@ module Paperclip
         if @current_geometry.present? && @target_geometry.present?
           options.merge!(resolution: target_resolution)
         end
+        if attachment.instance.class.method_defined?('transpose_rotation')
+          options.merge!(rotation: attachment.instance.transpose_rotation)
+        end
+
         @movie.transcode(dst.path, options.merge(@convert_options), @transcoder_options)
       rescue FFMPEG::Error
         raise Paperclip::Error, "There was an error processing the transcoder for #{@basename}" if @whiny
