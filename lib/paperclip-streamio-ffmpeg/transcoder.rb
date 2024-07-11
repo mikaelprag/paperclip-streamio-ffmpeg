@@ -41,6 +41,9 @@ module Paperclip
         if attachment.instance.class.method_defined?('transpose_rotation')
           options.merge!(rotation: attachment.instance.transpose_rotation)
         end
+        if attachment.instance.class.method_defined?('muted') && attachment.instance.muted?
+          @convert_options[:custom].push('-an')
+        end
 
         @movie.transcode(dst.path, options.merge(@convert_options), @transcoder_options)
       rescue FFMPEG::Error
