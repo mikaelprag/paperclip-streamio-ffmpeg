@@ -42,7 +42,7 @@ module Paperclip
           options.merge!(rotation: attachment.instance.transpose_rotation)
         end
         if attachment.instance.class.method_defined?('muted') && attachment.instance.muted?
-          @convert_options[:custom].push('-an')
+          options.merge!(muted: true)
         end
 
         @movie.transcode(dst.path, options.merge(@convert_options), @transcoder_options)
